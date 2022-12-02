@@ -40,7 +40,7 @@ import Json.Encode as JE exposing (Value)
 -}
 type alias Instance =
     { name : String
-    , url : String
+    , domain : String
     , description : String
     , tags : List String
     }
@@ -55,10 +55,10 @@ type alias Instances =
 {-| Encode an `Instance`.
 -}
 encodeInstance : Instance -> Value
-encodeInstance { name, url, description, tags } =
+encodeInstance { name, domain, description, tags } =
     JE.object
         [ ( "name", JE.string name )
-        , ( "url", JE.string url )
+        , ( "domain", JE.string domain )
         , ( "description", JE.string description )
         , ( "tags", String.join "," tags |> JE.string )
         ]
@@ -70,7 +70,7 @@ instanceDecoder : Decoder Instance
 instanceDecoder =
     JD.succeed Instance
         |> required "name" JD.string
-        |> required "url" JD.string
+        |> required "domain" JD.string
         |> optional "description" JD.string ""
         |> optional "tags"
             (JD.string
